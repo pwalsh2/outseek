@@ -6,10 +6,10 @@ const Header = () => {
 		<header>
 			<div className='header-container'>
 				<div style={{ width: "19rem" }}>
-					<img
+					{/* <img
 						style={{ height: "4rem", paddingLeft: "1rem" }}
 						alt='logo'
-						src={logo}></img>
+						src={logo}></img> */}
 				</div>
 				<div></div>
 			</div>
