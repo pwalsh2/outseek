@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Children, useContext } from "react";
 import { getGrowth, getOverview, getRatios, TransformData } from "../API/API";
 import { Resizable } from "re-resizable";
 import { TabContent, Button, Form } from "react-bootstrap";
@@ -9,6 +9,8 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { InputGroup, FormControl } from "react-bootstrap";
 import { animated, useTransition } from "react-spring";
+import { GlobalContext } from "../../../../Store/GlobalStore";
+import { ComponentContext } from "../../../../WireFrame/Content/WorkSpace/WorkSpace";
 
 // Define a default UI for filtering
 
@@ -85,13 +87,6 @@ export function Growth() {
 		});
 	}, [ticker]);
 
-	const style = {
-		display: "flex",
-		flexDirection: "column",
-		border: "solid 1px #ddd",
-		background: "rgba(0, 27, 45, 0.9)",
-	};
-
 	const [width, setWidth] = React.useState(500);
 	const [height, setHeight] = React.useState(1000);
 
@@ -101,51 +96,38 @@ export function Growth() {
 	}
 	return (
 		<>
-			<div style={{ float: "left" }}>
-				{" "}
-				<Resizable
-					style={style}
-					size={{ width, height }}
-					onResizeStop={(e, direction, ref, d) => {
-						setWidth(width + d.width);
-						setHeight(height + d.height);
-					}}>
-					{transition((style, item) =>
-						item ? (
-							<animated.div
-								style={{
-									...style,
-									position: "relative",
-									left: "0%",
-									zIndex: 999,
-								}}>
-								<InputGroup
-									style={{ zIndex: 10000 }}
-									size='md'
-									className='mb-3'>
-									<FormControl
-										aria-label='Small'
-										aria-describedby='inputGroup-sizing-sm'
-										placeholder='Enter Ticker...'
-										ref={inputTickerRef}
-									/>
-									<Button
-										onClick={() => {
-											setData();
-										}}
-										style={{ float: "left" }}>
-										{" "}
-										<b> &#8592;</b>{" "}
-									</Button>
-								</InputGroup>{" "}
-							</animated.div>
-						) : (
-							""
-						)
-					)}
-					<Table columns={Growth_COLUMNS} data={growthData} />
-				</Resizable>
-			</div>
+			{transition((style, item) =>
+				item ? (
+					<animated.div
+						style={{
+							...style,
+							position: "relative",
+							left: "0%",
+							zIndex: 999,
+						}}>
+						<InputGroup style={{ zIndex: 10000 }} size='md' className='mb-3'>
+							<FormControl
+								aria-label='Small'
+								aria-describedby='inputGroup-sizing-sm'
+								placeholder='Enter Ticker...'
+								ref={inputTickerRef}
+							/>
+							<Button
+								onClick={() => {
+									setData();
+								}}
+								style={{ float: "left" }}>
+								{" "}
+								<b> &#8592;</b>{" "}
+							</Button>
+							<Button className='dragHandle'>Drag</Button>
+						</InputGroup>{" "}
+					</animated.div>
+				) : (
+					""
+				)
+			)}
+			<Table columns={Growth_COLUMNS} data={growthData} />
 		</>
 	);
 }
@@ -154,81 +136,63 @@ export function Ratios() {
 	const Ratios_COLUMNS = getCOLUMNS("Fundemental Ratios");
 
 	const [ratioData, setRatioData] = useState([]);
-
+	const globalContext = useContext(GlobalContext);
+	const componentContext = useContext(ComponentContext);
 	const [inputVisible, setInputVisible] = useState(true);
 	const inputTickerRef = React.useRef(0);
 	const transition = useTransition(inputVisible, {});
 	const [ticker, setTicker] = useState("AAPL");
 
-	const style = {
-		display: "flex",
-		flexDirection: "column",
-		border: "solid 1px #ddd",
-		background: "rgba(0, 27, 45, 0.9)",
-	};
-
-	const [width, setWidth] = React.useState(500);
-	const [height, setHeight] = React.useState(1000);
-
 	function setData() {
 		// setInputVisible(!inputVisible);
 		setTicker(inputTickerRef.current.value);
-		console.log(ticker);
+		globalContext.updateComponentTicker({
+			DashboardID: componentContext.DashboardNumber - 1,
+			ComponentID: componentContext.ComponentNumber - 1,
+			Ticker: inputTickerRef.current.value,
+		});
 	}
 	useEffect(() => {
 		getRatios(ticker).then((dataRaw) => {
-			console.log(dataRaw);
 			setRatioData(TransformData(dataRaw.data));
 		});
 	}, [ticker]);
 
 	return (
 		<>
-			<div style={{ float: "left" }}>
-				{" "}
-				<Resizable
-					style={style}
-					size={{ width, height }}
-					onResizeStop={(d) => {
-						setWidth(width + d.width);
-						setHeight(height + d.height);
-					}}>
-					{transition((style, item) =>
-						item ? (
-							<animated.div
-								style={{
-									...style,
-									position: "relative",
-									left: "0%",
-									zIndex: 999,
-								}}>
-								<InputGroup
-									style={{ zIndex: 10000 }}
-									size='md'
-									className='mb-3'>
-									<FormControl
-										aria-label='Small'
-										aria-describedby='inputGroup-sizing-sm'
-										placeholder='Enter Ticker...'
-										ref={inputTickerRef}
-									/>
-									<Button
-										onClick={() => {
-											setData();
-										}}
-										style={{ float: "left" }}>
-										{" "}
-										<b> &#8592;</b>{" "}
-									</Button>
-								</InputGroup>{" "}
-							</animated.div>
-						) : (
-							""
-						)
-					)}
-					<Table columns={Ratios_COLUMNS} data={ratioData} />
-				</Resizable>
-			</div>
+			{" "}
+			{transition((style, item) =>
+				item ? (
+					<animated.div
+						style={{
+							...style,
+							position: "relative",
+							left: "0%",
+							zIndex: 999,
+						}}>
+						<InputGroup style={{ zIndex: 10000 }} size='md' className='mb-3'>
+							<FormControl
+								aria-label='Small'
+								aria-describedby='inputGroup-sizing-sm'
+								placeholder='Enter Ticker...'
+								ref={inputTickerRef}
+							/>
+							<Button
+								onClick={() => {
+									setData();
+								}}
+								style={{ float: "left" }}>
+								{" "}
+								<b> &#8592;</b>{" "}
+							</Button>
+							<Button className='dragHandle'>Drag</Button>
+						</InputGroup>{" "}
+					</animated.div>
+				) : (
+					""
+				)
+			)}
+			<Table columns={Ratios_COLUMNS} data={ratioData} />
 		</>
 	);
 }

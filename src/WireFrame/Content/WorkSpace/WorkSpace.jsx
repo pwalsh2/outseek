@@ -1,40 +1,28 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import { ComponentReducer } from "../../../Components/ComponentWrapper/ComponentWrapper";
+import "./WorkSpace.css";
+import { createContext, useContext } from "react";
+import { DashboardContext } from "../Content";
+import { GlobalContext } from "../../../Store/GlobalStore";
 
-import {
-	IncomeBreakdown,
-	AssetBreakdown,
-	LiabilitiesBreakdown,
-	EquitiesBreakdown,
-} from "../../../Components/Charts/Presets/BreakdownCharts";
-import {
-	Ratios,
-	Growth,
-} from "../../../Components/Analysis/Overview/Ratios/Ratios";
-import {
-	BalanceSheet,
-	IncomeStatement,
-	CashFlow,
-} from "../../../Components/FinancialStatements/FinancialStatements/FinancialStatements";
-import Screener from "../../../Components/Screener/Screener/Screener";
+export const ComponentContext = createContext();
 export default function WorkSpaceUI() {
-	return (
-		<div className='WorkSpaceDiv'>
-			<div></div>
-			<div style={{ padding: "15px" }}>
-				<Ratios />
-				<Growth />
-				{/* <Screener /> */}
-				<CashFlow />
-				<BalanceSheet />
-				<IncomeStatement />
+	const DashboardNum = useContext(DashboardContext);
+	const globalContext = useContext(GlobalContext);
+	const components = globalContext.fetchComponents(DashboardNum);
 
-				<AssetBreakdown />
-				<LiabilitiesBreakdown />
-				<EquitiesBreakdown />
-				<IncomeBreakdown />
-			</div>
-			<div></div>
-		</div>
+	return (
+		<>
+			{components[0].components.map((comp, index) => {
+				return (
+					<ComponentContext.Provider
+						value={{ DashboardNumber: DashboardNum, ComponentNumber: comp.id }}
+						key={index}>
+						<ComponentReducer type={comp.type}></ComponentReducer>{" "}
+					</ComponentContext.Provider>
+				);
+			})}
+		</>
 	);
 }

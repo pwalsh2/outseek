@@ -1,0 +1,72 @@
+{
+	"users": [
+		{
+			"id": 1,
+			"name": "Test Name",
+			"dashboards": [
+				{
+					"id": 1,
+					"name": "Nathan's Dashboard",
+					"components": [
+						{
+							"id": 1,
+							"type": "Ratios",
+							"width": 300,
+							"height": 400,
+							"xPos": 0,
+							"yPos": 0,
+							"core": {},
+							"ticker": "AAPL"
+						},
+						{
+							"id": 2,
+							"type": "Ratios",
+							"width": 300,
+							"height": 400,
+							"xPos": 100,
+							"yPos": 0,
+							"core": {},
+							"ticker": "AAPL"
+						},
+						{
+							"id": 3,
+							"type": "Growth",
+							"width": 500,
+							"height": 1000,
+							"xPos": 300,
+							"yPos": 0,
+							"core": {},
+							"ticker": "AAPL"
+						}
+					]
+				},
+				{
+					"id": 2,
+					"name": "Paul's Dashboard",
+					"components": [
+						{
+							"id": 1,
+							"type": "Ratios",
+							"width": 300,
+							"height": 400,
+							"xPos": 500,
+							"yPos": 400,
+							"core": {},
+							"ticker": "AAPL"
+						},
+						{
+							"id": 2,
+							"type": "Ratios",
+							"width": 300,
+							"height": 400,
+							"xPos": 100,
+							"yPos": 400,
+							"core": {},
+							"ticker": "AAPL"
+						}
+					]
+				}
+			]
+		}
+	]
+}

@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext, createContext } from "react";
 import "./Content-Styles.css";
-
 import WorkSpaceUI from "./WorkSpace/WorkSpace";
-const ContentArea = () => {
+export const DashboardContext = createContext();
+
+const ContentArea = (props) => {
 	return (
 		<div className='content-area'>
-			<WorkSpaceUI></WorkSpaceUI>
+			<DashboardContext.Provider value={props.index}>
+				<WorkSpaceUI></WorkSpaceUI>
+			</DashboardContext.Provider>
 		</div>
 	);
 };

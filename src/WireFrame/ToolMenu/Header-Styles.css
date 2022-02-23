@@ -1,11 +1,11 @@
  header {
      width: 100vw;
-     height:3rem; 
+     height:7rem; 
      background-color: var(--outseek-primary);
      position: sticky;
  }
 
-.header-container {
+.toolbar-container {
     width: 100vw;
     height:100%;
     position: sticky;

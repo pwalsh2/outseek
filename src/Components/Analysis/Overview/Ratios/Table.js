@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -14,7 +14,10 @@ import {
 	useRowSelect,
 	useBlockLayout,
 } from "react-table";
+import { styles } from "./TableStyle";
 
+import { GlobalContext } from "../../../../Store/GlobalStore";
+import { ComponentContext } from "../../../../WireFrame/Content/WorkSpace/WorkSpace";
 function DefaultColumnFilter({
 	column: { filterValue, preFilteredRows, setFilter },
 }) {
@@ -32,6 +35,9 @@ function DefaultColumnFilter({
 }
 // Our table component
 export function Table({ columns: userColumns, data }) {
+	const globalContext = useContext(GlobalContext);
+	const componentContext = useContext(ComponentContext);
+
 	const defaultColumn = React.useMemo(
 		() => ({
 			// Let's set up our default Filter UI
@@ -58,29 +64,36 @@ export function Table({ columns: userColumns, data }) {
 		}),
 		[]
 	);
-	console.log("53-", userColumns);
 	const {
 		getTableProps,
 		getTableBodyProps,
-
 		headerGroups,
-
 		rows,
 		prepareRow,
+		state,
 	} = useTable(
 		{
 			columns: userColumns,
 			data,
+
 			defaultColumn, // Be sure to pass the defaultColumn option
 		},
 		useFilters
 	);
 
+	function save() {
+		globalContext.updateComponentCore({
+			DashboardID: componentContext.DashboardNumber - 1,
+			ComponentID: componentContext.ComponentNumber - 1,
+			core: state.filters,
+		});
+	}
 	const firstPageRows = rows.slice(0, 100);
 
 	return (
 		<>
 			<div className='table-responsive'>
+				<button onClick={() => save()}>Save</button>
 				<table className='table table-dark' {...getTableProps()}>
 					<thead>
 						{headerGroups.map((headerGroup) => (
@@ -90,6 +103,7 @@ export function Table({ columns: userColumns, data }) {
 										style={{
 											backgroundColor: "#3c6782",
 											position: "sticky",
+											fontSize: "9px",
 
 											top: 0,
 										}}
@@ -111,7 +125,11 @@ export function Table({ columns: userColumns, data }) {
 								<tr {...row.getRowProps()}>
 									{row.cells.map((cell) => {
 										return (
-											<td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+											<td
+												{...cell.getCellProps()}
+												style={styles.tableStyles.td}>
+												{cell.render("Cell")}
+											</td>
 										);
 									})}
 								</tr>

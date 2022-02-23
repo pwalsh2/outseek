@@ -3,6 +3,7 @@ import {
 	AreaChart,
 	ResponsiveContainer,
 	Area,
+	Brush,
 	XAxis,
 	YAxis,
 	CartesianGrid,
@@ -259,6 +260,7 @@ export function IncomeBreakdown() {
 						<CartesianGrid strokeDasharray='3 3' />
 						<XAxis dataKey='Date' />
 						<YAxis width={130} />
+						<Brush dataKey='date' height={30} stroke='#8884d8' />
 						<Legend verticalAlign='top' height={36} />
 						<Tooltip />
 						<Area

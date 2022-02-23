@@ -26,7 +26,6 @@ export function TransformData(dataIN) {
 	let data = [];
 
 	let keys = Object.keys(dataIN[0]);
-	console.log("29", Object.keys(dataIN[0]));
 	for (let j = 0; j < keys.length - 3; j++) {
 		//integer
 		if (dataIN[0][keys[j]] > 100 && !typeof dataIN[0][keys[j]] === "string") {
@@ -61,7 +60,6 @@ export function TransformData(dataIN) {
 			data.push(entry);
 		} else {
 			// floating point
-			console.log(dataIN[0][keys[j]]);
 			try {
 				let entry = {
 					key: keys[j],
