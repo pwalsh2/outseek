@@ -17,24 +17,20 @@ export function dashboardReducer(state, action) {
 			copy = deepCopy(state);
 			console.log(action.payload)
 			console.log(copy)
-			var temp = copy.dashboards[action.payload.DashboardID-1].components.map((comp, index, arr) => {
-				if(index+1  !== action.payload.ComponentID){
-					console.log(index, arr, action.payload)
-					return comp
-				}
-				else {
-					console.log(index, arr, action.payload)
-				
-					return null
-				}
-				
-			})
+			var temp = copy.dashboards[action.payload.DashboardID - 1].components.map(
+				(comp, index, arr) => {
+					if (index + 1 !== action.payload.ComponentID) {
+						console.log(index, arr, action.payload);
+						return comp;
+					} else {
+						console.log(index, arr, action.payload);
 
-			
-			temp = temp.filter(n => n)
-			copy.dashboards[action.payload.DashboardID-1].components = [...temp]
-			
-
+						return null;
+					}
+				}
+			);
+			temp = temp.filter((n) => n);
+			copy.dashboards[action.payload.DashboardID - 1].components = [...temp];
 			return {
 				...copy,
 			};

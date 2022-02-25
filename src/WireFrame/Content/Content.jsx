@@ -9,11 +9,11 @@ export const DashboardContext = createContext();
 const ContentArea = (props) => {
 	const globalContext = useContext(GlobalContext);
 	const components = props.components;
-	console.log(components);
+
 	return (
 		<div className='content-area'>
 			<DashboardContext.Provider value={props.index}>
-				<WorkSpaceUI components={components}></WorkSpaceUI>
+				{/* <WorkSpaceUI components={props.components}></WorkSpaceUI> */}
 			</DashboardContext.Provider>
 		</div>
 	);

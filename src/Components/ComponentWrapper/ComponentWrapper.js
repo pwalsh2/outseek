@@ -8,16 +8,19 @@ import { ComponentContext } from "../../WireFrame/Content/WorkSpace/WorkSpace";
 import { GlobalContext } from "../../Store/GlobalStore";
 import deepCopy from "deepcopy";
 import useWindowDimensions from "../../Utils/useWindowSize.hook";
+import { useReducer } from "react";
+import { useRef } from "react";
 export function DraggableWrapper(props) {
 	const [x, setX] = useState();
 	const [y, setY] = useState();
 	const componentContext = useContext(ComponentContext);
 
 	const globalContext = useContext(GlobalContext);
-
+	const rndREF = useRef(0);
 	function dragStop(data) {
 		setX(data.x);
 		setY(data.y);
+		console.log(rndREF.current);
 		globalContext.updateComponentPosition({
 			DashboardID: componentContext.DashboardNumber - 1,
 			ComponentID: componentContext.ComponentNumber - 1,
@@ -28,6 +31,7 @@ export function DraggableWrapper(props) {
 
 	return (
 		<Rnd
+			ref={rndREF}
 			default={{
 				x:
 					globalContext.dashboard.dashboards[

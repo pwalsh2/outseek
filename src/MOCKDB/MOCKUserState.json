@@ -14,18 +14,18 @@
               "type": "Ratios",
               "width": 300,
               "height": 400,
-              "xPos": 0,
-              "yPos": 0,
+              "xPos": 312,
+              "yPos": 326,
               "core": {},
               "ticker": "AAPL"
             },
             {
-              "id": 2,
+              "id": 1,
               "type": "Ratios",
               "width": 300,
               "height": 400,
-              "xPos": 632,
-              "yPos": 330,
+              "xPos": 300,
+              "yPos": 320,
               "core": {},
               "ticker": "AAPL"
             }
