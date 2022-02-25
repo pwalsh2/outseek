@@ -9,27 +9,30 @@ import { GlobalContext } from "../Store/GlobalStore";
 
 import { Button } from "react-bootstrap";
 
-function WireFrame({ state }) {
+function WireFrame(props) {
 	const globalContext = useContext(GlobalContext);
-	const [loading, setLoading] = useState(true);
-
+	console.log(globalContext);
+	const loading = props.loading;
 	return (
 		<div>
 			<Header></Header>
 			<ToolMenu />
-			{}
-			<Tabs
-				defaultActiveKey='profile'
-				id='uncontrolled-tab-example'
-				className='mb-3'>
-				{globalContext.dashboard.dashboards.map((dashboard, index) => {
-					return (
-						<Tab eventKey={dashboard.name} title={dashboard.name} key={index}>
-							<ContentArea index={index + 1}></ContentArea>
-						</Tab>
-					);
-				})}
-			</Tabs>{" "}
+			{!loading && (
+				<Tabs
+					defaultActiveKey='profile'
+					id='uncontrolled-tab-example'
+					className='mb-3'>
+					{globalContext.dashboard.dashboards.map((dashboard, index) => {
+						return (
+							<Tab eventKey={dashboard.name} title={dashboard.name} key={index}>
+								<ContentArea
+									index={index + 1}
+									components={dashboard.components}></ContentArea>
+							</Tab>
+						);
+					})}
+				</Tabs>
+			)}
 		</div>
 	);
 }

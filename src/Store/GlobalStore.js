@@ -1,11 +1,19 @@
-import React, { createContext, useEffect, useReducer, useState } from "react";
+import React, {
+	createContext,
+	useEffect,
+	useMemo,
+	useReducer,
+	useState,
+} from "react";
 import { dashboardReducer } from "../Reducers/DashboardReducer";
 import axios from "axios";
+import deepCopy from "deepcopy";
 
 const InitialState = {
 	user: {
 		id: 1,
 		name: "John Doe",
+		loading: true,
 		dashboards: [
 			{
 				id: 1,
@@ -76,14 +84,47 @@ const InitialState = {
 async function fetchGlobalData(name) {
 	return axios.get("http://localhost:3000/users");
 }
+
+async function postGlobalData(dataIN) {
+	const data = deepCopy(dataIN);
+	console.log(data);
+	return axios.put("http://localhost:3000/users/1", data);
+}
 export const GlobalContext = createContext(InitialState);
 
 export const GlobalProvider = ({ children }) => {
 	const [serverData, setServerData] = useState(null);
 	const [loading, setLoading] = useState(true);
+
 	const [save, toggleSave] = useState(false);
 	const [state, dispatch] = useReducer(dashboardReducer, InitialState.user);
+	const [currentDashboard, setCurrentDashboard] = useState(1);
+	const [componentUpdate, triggerUpdate] = useState(false);
+	function RefreshData() {
+		fetchGlobalData("Pwalsh2").then((data) => {
+			dispatch({
+				type: "REFRESH_DATA",
+				payload: data.data,
+			});
+		});
+	}
 
+	function triggerUpdateFunc() {
+		dispatch({
+			type: "TRIGGER_UPDATE",
+			payload: { oldValue: componentUpdate, triggerFunc: triggerUpdate },
+		});
+	}
+	function fetchComponentsListLength(DashboardID) {
+		console.log(DashboardID);
+		return state.dashboards[DashboardID - 1].components.length;
+	}
+	function updateCurrentDashboard(newID) {
+		setCurrentDashboard(newID);
+	}
+	function PostData() {
+		postGlobalData(state).then((resp) => RefreshData());
+	}
 	function addDashboard(dashboard) {
 		dispatch({
 			type: "ADD_DASHBOARD",
@@ -105,10 +146,14 @@ export const GlobalProvider = ({ children }) => {
 		});
 	}
 
-	function addComponent(component) {
+	function addComponent(component, DashboardID) {
+		component.id = fetchComponentsListLength(DashboardID);
 		dispatch({
 			type: "ADD_COMPONENT",
-			payload: component,
+			payload: {
+				component: component,
+				DashboardID: DashboardID,
+			},
 		});
 	}
 
@@ -128,8 +173,6 @@ export const GlobalProvider = ({ children }) => {
 			type: "UPDATE_POSITION",
 			payload: updatePositionObj,
 		});
-
-		console.log(state);
 	}
 
 	function updateComponentCore(updateCoreObj) {
@@ -144,7 +187,6 @@ export const GlobalProvider = ({ children }) => {
 			type: "UPDATE_TICKER",
 			payload: updateTickerObj,
 		});
-		console.log(state);
 	}
 	function saveState() {
 		toggleSave(!save);
@@ -155,12 +197,18 @@ export const GlobalProvider = ({ children }) => {
 			return d.id === DashboardID;
 		});
 	}
+
 	return (
 		<GlobalContext.Provider
 			value={{
 				dashboard: state,
-				loading: loading,
-
+				currentDashboard: currentDashboard,
+				didUpdate: componentUpdate,
+				triggerUpdateFunc,
+				fetchComponentsListLength,
+				updateCurrentDashboard,
+				PostData,
+				RefreshData,
 				addDashboard,
 				fetchComponents,
 				updateDashboards,

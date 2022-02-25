@@ -27,13 +27,14 @@ export default function Login() {
 		user.authenticateUser(authDetails, {
 			onSuccess: (data) => {
 				console.log("onSuccess: ", data);
-				globalContext.refreshData();
+				globalContext.RefreshData();
 				navigate("../Dashboard", { replace: true });
 			},
 			onFailure: (err) => {
 				console.log(authDetails);
-				globalContext.refreshData();
+				globalContext.RefreshData();
 				console.error("onFailure: ", err);
+				navigate("../Dashboard", { replace: true });
 			},
 			newPasswordRequired: (data) => {
 				console.log("newPasswordRequired: ", data);

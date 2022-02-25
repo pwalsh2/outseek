@@ -7,17 +7,17 @@ import TradingViewWidget from "react-tradingview-widget";
 import { ComponentContext } from "../../WireFrame/Content/WorkSpace/WorkSpace";
 import { GlobalContext } from "../../Store/GlobalStore";
 import deepCopy from "deepcopy";
+import useWindowDimensions from "../../Utils/useWindowSize.hook";
 export function DraggableWrapper(props) {
-	const [x, setX] = useState(180);
-	const [y, setY] = useState(400);
+	const [x, setX] = useState();
+	const [y, setY] = useState();
 	const componentContext = useContext(ComponentContext);
 
 	const globalContext = useContext(GlobalContext);
 
-	function dragStop(e, data) {
+	function dragStop(data) {
 		setX(data.x);
 		setY(data.y);
-
 		globalContext.updateComponentPosition({
 			DashboardID: componentContext.DashboardNumber - 1,
 			ComponentID: componentContext.ComponentNumber - 1,
@@ -29,13 +29,16 @@ export function DraggableWrapper(props) {
 	return (
 		<Rnd
 			default={{
-				x: globalContext.dashboard.dashboards[
-					componentContext.DashboardNumber - 1
-				].components[componentContext.ComponentNumber - 1].xPos,
+				x:
+					globalContext.dashboard.dashboards[
+						componentContext.DashboardNumber - 1
+					].components[componentContext.ComponentNumber - 1].xPos / 2,
 				y:
 					globalContext.dashboard.dashboards[
 						componentContext.DashboardNumber - 1
-					].components[componentContext.ComponentNumber - 1].yPos + 150,
+					].components[componentContext.ComponentNumber - 1].yPos *
+						0.49 +
+					150,
 			}}
 			onDragStop={(e, d) => {
 				dragStop(e, d);
@@ -60,7 +63,7 @@ export const ResizableWrapper = (props) => {
 	const [save, toggleSave] = useState(false);
 	const [width, setWidth] = React.useState();
 	const [height, setHeight] = React.useState();
-
+	console.log();
 	function resize(d) {
 		setWidth(width + d.width);
 		setHeight(height + d.height);
@@ -74,7 +77,6 @@ export const ResizableWrapper = (props) => {
 
 	return (
 		<div style={{ float: "left", paddingLeft: "2rem" }}>
-			<button onClick={() => toggleSave(!save)}>Save!</button>{" "}
 			<Resizable
 				style={style}
 				defaultSize={{

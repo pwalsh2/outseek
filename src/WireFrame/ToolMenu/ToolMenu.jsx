@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Header-Styles.css";
 import { Button, ButtonGroup } from "react-bootstrap";
-
+import { GlobalContext } from "../../Store/GlobalStore";
 import "bootstrap/dist/css/bootstrap.min.css";
+
+import { componentConfigMapper } from "../../Store/ComponentConfigFactory";
 const ToolMenu = () => {
+	const globalContext = useContext(GlobalContext);
+
 	return (
 		<header>
 			<div className='toolbar-container'>
@@ -12,8 +16,21 @@ const ToolMenu = () => {
 						size='sm'
 						aria-label='Basic example'
 						style={{ height: "2.5rem", position: "absolute" }}>
-						<Button variant='secondary'>Save</Button>
-						<Button variant='secondary'>Analysis</Button>
+						<Button
+							variant='secondary'
+							onClick={(e) => globalContext.PostData()}>
+							Save
+						</Button>
+						<Button
+							variant='secondary'
+							onClick={(e) =>
+								globalContext.addComponent(
+									componentConfigMapper["Ratios"],
+									globalContext.currentDashboard
+								)
+							}>
+							Analysis
+						</Button>
 
 						<Button variant='secondary'>Financial Statements</Button>
 

@@ -4,23 +4,48 @@ export function dashboardReducer(state, action) {
 	let copy = null;
 	switch (action.type) {
 		case "REFRESH_DATA":
+	
 			return {
-				...action.payload.data,
+				...action.payload[0],
 			};
+		case "TRIGGER_UPDATE":
+			action.payload.triggerFunc(!action.payload.oldValue)
+			return {
+				...state
+			}
 		case "REMOVE_COMPONENT":
 			copy = deepCopy(state);
-			copy.dashboards[action.payload.DashboardID].components.filter((comp) => {
-				return comp.id !== action.payload.ComponentID;
-			});
+			console.log(action.payload)
+			console.log(copy)
+			var temp = copy.dashboards[action.payload.DashboardID-1].components.map((comp, index, arr) => {
+				if(index+1  !== action.payload.ComponentID){
+					console.log(index, arr, action.payload)
+					return comp
+				}
+				else {
+					console.log(index, arr, action.payload)
+				
+					return null
+				}
+				
+			})
+
+			
+			temp = temp.filter(n => n)
+			copy.dashboards[action.payload.DashboardID-1].components = [...temp]
+			
+
 			return {
 				...copy,
 			};
 		case "ADD_COMPONENT":
 			copy = deepCopy(state);
 
-			copy.dashboards[action.payload.DashboardID].components.push(
-				action.payload
+			copy.dashboards[action.payload.DashboardID-1].components.push(
+				action.payload.component
 			);
+
+			
 			return {
 				...copy,
 			};

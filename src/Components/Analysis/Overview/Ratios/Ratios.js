@@ -132,6 +132,40 @@ export function Growth() {
 	);
 }
 
+
+export const MinMaxCloseButtonStyles = {
+	close: {
+		height: "25px",
+		margin: "3px",
+		width: "25px",
+		backgroundColor: "#bbb",
+		borderRadius: "50%",
+		display: "inline-block",
+	},
+	min: {
+		height: "25px",
+		margin: "3px",
+		width: "25px",
+		backgroundColor: "#bbb",
+		borderRadius: "50%",
+		display: "inline-block",
+	},
+};
+
+export const CloseButton = ({ DashboardID, ComponentID }) => {
+	const globalContext = useContext(GlobalContext);
+
+	const close = () => {
+		globalContext.removeComponent(ComponentID, DashboardID);
+		globalContext.triggerUpdateFunc();
+	};
+
+	return (
+		<span onClick={() => close()} style={MinMaxCloseButtonStyles.close}>
+			X
+		</span>
+	);
+};
 export function Ratios() {
 	const Ratios_COLUMNS = getCOLUMNS("Fundemental Ratios");
 
@@ -171,6 +205,11 @@ export function Ratios() {
 							zIndex: 999,
 						}}>
 						<InputGroup style={{ zIndex: 10000 }} size='md' className='mb-3'>
+							<CloseButton
+								DashboardID={componentContext.DashboardNumber}
+								ComponentID={componentContext.ComponentNumber}></CloseButton>
+							{/* <span style={MinMaxCloseButtonStyles.min}>-</span> */}
+
 							<FormControl
 								aria-label='Small'
 								aria-describedby='inputGroup-sizing-sm'
