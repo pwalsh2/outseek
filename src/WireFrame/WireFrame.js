@@ -17,8 +17,8 @@ function WireFrame(props) {
 	const [layoutState, setLayoutState] = useState();
 	console.log(globalContext);
 	const layout = {
-		xs: [{ i: "1", x: 0, y: 0, w: 2, h: 1, minW: 2, minH: 1 }],
-		md: [{ i: "2", x: 10, y: 0, w: 2, h: 1, minW: 2, minH: 1 }],
+		xs: [{ i: "1", x: 0, y: 0, w: 2, h: 1, minW: 2, minH: 1, comp: 1 }],
+		md: [{ i: "2", x: 10, y: 0, w: 2, h: 1, minW: 2, minH: 1, comp: 1 }],
 	};
 	const loading = props.loading;
 
