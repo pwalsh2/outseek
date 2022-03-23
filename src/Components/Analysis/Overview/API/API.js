@@ -94,3 +94,20 @@ export function TransformData(dataIN) {
 
 	return data;
 }
+
+
+
+const fetchProfileData = async (ticker) => {
+	try {
+		const data = await axios.get(
+			"https://financialmodelingprep.com/api/v3/profile/" +
+				ticker +
+				"?apikey=6f583125e791bceb5e95b3307b84bd13"
+		);
+		return data.data;
+	} catch {
+		return null;
+	}
+};
+
+console.log(fetchProfileData("AAPL"));

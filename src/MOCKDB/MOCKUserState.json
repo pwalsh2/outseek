@@ -1,63 +1,52 @@
 {
-  "users": [
-    {
-      "id": 1,
-      "name": "John Doe",
-      "loading": false,
-      "dashboards": [
-        {
-          "id": 1,
-          "name": "Nathan's Dashboard",
-          "components": [
-            {
-              "id": 1,
-              "type": "Ratios",
-              "width": 300,
-              "height": 400,
-              "xPos": 312,
-              "yPos": 326,
-              "core": {},
-              "ticker": "AAPL"
-            },
-            {
-              "id": 1,
-              "type": "Ratios",
-              "width": 300,
-              "height": 400,
-              "xPos": 300,
-              "yPos": 320,
-              "core": {},
-              "ticker": "AAPL"
-            }
-          ]
-        },
-        {
-          "id": 2,
-          "name": "Paul's Dashboard",
-          "components": [
-            {
-              "id": 1,
-              "type": "Ratios",
-              "width": 300,
-              "height": 400,
-              "xPos": 500,
-              "yPos": 400,
-              "core": {},
-              "ticker": "AAPL"
-            },
-            {
-              "id": 2,
-              "type": "Ratios",
-              "width": 300,
-              "height": 400,
-              "xPos": 100,
-              "yPos": 400,
-              "core": {},
-              "ticker": "AAPL"
-            }
-          ]
-        }
-      ]
-    }
-  ]
+	"user": {
+		"id": 1,
+		"username": "pwalsh2",
+		"loading": false
+	},
+
+	"dashboards": [
+		{
+			"id": 1,
+			"name": "Nathans Dashboard",
+			"specs": {
+				"xs": [
+					{
+						"i": "1",
+						"comp": "Ratios",
+						"ticker": "AAPL",
+						"filters": {}
+					},
+					{
+						"i": "2",
+						"comp": "Ratios",
+						"ticker": "AAPL",
+						"filters": {}
+					}
+				]
+			},
+			"layout": {
+				"xs": [
+					{
+						"i": "1",
+						"x": 0,
+						"y": 0,
+						"w": 15,
+						"h": 4,
+						"minW": 2,
+						"minH": 1
+					},
+					{
+						"i": "2",
+						"x": 9,
+						"y": 10,
+						"w": 6,
+						"h": 4,
+						"minW": 2,
+						"minH": 1
+					}
+				]
+			}
+		}
+	]
 }

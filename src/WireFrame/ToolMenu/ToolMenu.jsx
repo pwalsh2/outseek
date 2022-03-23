@@ -4,7 +4,7 @@ import { Button, ButtonGroup } from "react-bootstrap";
 import { GlobalContext } from "../../Store/GlobalStore";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { componentConfigMapper } from "../../Store/ComponentConfigFactory";
+
 const ToolMenu = () => {
 	const globalContext = useContext(GlobalContext);
 
@@ -21,7 +21,7 @@ const ToolMenu = () => {
 							onClick={(e) => globalContext.PostData()}>
 							Save
 						</Button>
-						<Button
+						{/* <Button
 							variant='secondary'
 							onClick={(e) =>
 								globalContext.addComponent(
@@ -30,7 +30,7 @@ const ToolMenu = () => {
 								)
 							}>
 							Analysis
-						</Button>
+						</Button> */}
 
 						<Button variant='secondary'>Financial Statements</Button>
 

@@ -63,10 +63,13 @@ const MainContentRightGroup1 = () => {
 	);
 };
 const MainContentleftGroup1 = () => {
+
+	const globalContext = useContext(GlobalContext);
 	const navigate = useNavigate();
 
 	const navTerminal = () => {
-		navigate("./Dashboard", { replace: true });
+		globalContext.fetchData();
+		navigate("../Dashboard", { replace: true });
 	};
 	return (
 		<>

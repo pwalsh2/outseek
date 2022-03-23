@@ -1,4 +1,3 @@
-import ContentArea from "./Content/Content";
 import Header from "./Header/Header";
 import ToolMenu from "./ToolMenu/ToolMenu";
 import { Tabs, Tab } from "react-bootstrap";
@@ -36,7 +35,7 @@ function WireFrame(props) {
 					defaultActiveKey='profile'
 					id='uncontrolled-tab-example'
 					className='mb-3'>
-					{globalContext.dashboard.dashboards.map((dashboard, index) => {
+					{globalContext.state.dashboards.map((dashboard, index) => {
 						return (
 							<Tab eventKey={dashboard.name} title={dashboard.name} key={index}>
 								<ResponsiveGridLayout
@@ -63,6 +62,7 @@ function WireFrame(props) {
 export default WireFrame;
 
 const CustomGridItemComponent = React.forwardRef(
+	
 	({ style, className, ...props }, ref) => {
 		return (
 			<div style={{ ...style }} className={className} ref={ref}>

@@ -10,7 +10,7 @@ import "react-tabs/style/react-tabs.css";
 import { InputGroup, FormControl } from "react-bootstrap";
 import { animated, useTransition } from "react-spring";
 import { GlobalContext } from "../../../../Store/GlobalStore";
-import { ComponentContext } from "../../../../WireFrame/Content/WorkSpace/WorkSpace";
+
 
 // Define a default UI for filtering
 
@@ -171,21 +171,21 @@ export function Ratios() {
 
 	const [ratioData, setRatioData] = useState([]);
 	const globalContext = useContext(GlobalContext);
-	const componentContext = useContext(ComponentContext);
+	
 	const [inputVisible, setInputVisible] = useState(true);
 	const inputTickerRef = React.useRef(0);
 	const transition = useTransition(inputVisible, {});
 	const [ticker, setTicker] = useState("AAPL");
 
-	function setData() {
-		// setInputVisible(!inputVisible);
-		setTicker(inputTickerRef.current.value);
-		globalContext.updateComponentTicker({
-			DashboardID: componentContext.DashboardNumber - 1,
-			ComponentID: componentContext.ComponentNumber - 1,
-			Ticker: inputTickerRef.current.value,
-		});
-	}
+	// function setData() {
+	// 	// setInputVisible(!inputVisible);
+	// 	setTicker(inputTickerRef.current.value);
+	// 	globalContext.updateComponentTicker({
+	// 		DashboardID: componentContext.DashboardNumber - 1,
+	// 		ComponentID: componentContext.ComponentNumber - 1,
+	// 		Ticker: inputTickerRef.current.value,
+	// 	});
+	// }
 	useEffect(() => {
 		getRatios(ticker).then((dataRaw) => {
 			setRatioData(TransformData(dataRaw.data));
@@ -206,8 +206,7 @@ export function Ratios() {
 						}}>
 						<InputGroup style={{ zIndex: 10000 }} size='md' className='mb-3'>
 							<CloseButton
-								DashboardID={componentContext.DashboardNumber}
-								ComponentID={componentContext.ComponentNumber}></CloseButton>
+							></CloseButton>
 							{/* <span style={MinMaxCloseButtonStyles.min}>-</span> */}
 
 							<FormControl
@@ -218,7 +217,7 @@ export function Ratios() {
 							/>
 							<Button
 								onClick={() => {
-									setData();
+									
 								}}
 								style={{ float: "left" }}>
 								{" "}

@@ -5,8 +5,5 @@ import { GlobalContext } from "../Store/GlobalStore";
 export const WireFrameContainer = () => {
 	const globalContext = React.useContext(GlobalContext);
 
-	useEffect(() => {
-		globalContext.RefreshData();
-	}, []);
-	return <WireFrame loading={globalContext.dashboard.loading} />;
+	return <WireFrame loading={globalContext.state.loading} />;
 };

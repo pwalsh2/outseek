@@ -17,7 +17,7 @@ import {
 import { styles } from "./TableStyle";
 
 import { GlobalContext } from "../../../../Store/GlobalStore";
-import { ComponentContext } from "../../../../WireFrame/Content/WorkSpace/WorkSpace";
+
 function DefaultColumnFilter({
 	column: { filterValue, preFilteredRows, setFilter },
 }) {
@@ -36,7 +36,6 @@ function DefaultColumnFilter({
 // Our table component
 export function Table({ columns: userColumns, data }) {
 	const globalContext = useContext(GlobalContext);
-	const componentContext = useContext(ComponentContext);
 
 	const defaultColumn = React.useMemo(
 		() => ({
@@ -81,19 +80,18 @@ export function Table({ columns: userColumns, data }) {
 		useFilters
 	);
 
-	function save() {
-		globalContext.updateComponentCore({
-			DashboardID: componentContext.DashboardNumber - 1,
-			ComponentID: componentContext.ComponentNumber - 1,
-			core: state.filters,
-		});
-	}
+	// function save() {
+	// 	globalContext.updateComponentCore({
+	// 		DashboardID: componentContext.DashboardNumber - 1,
+	// 		ComponentID: componentContext.ComponentNumber - 1,
+	// 		core: state.filters,
+	// 	});
+	// }
 	const firstPageRows = rows.slice(0, 100);
 
 	return (
 		<>
 			<div className='table-responsive'>
-				<button onClick={() => save()}>Save</button>
 				<table className='table table-dark' {...getTableProps()}>
 					<thead>
 						{headerGroups.map((headerGroup) => (

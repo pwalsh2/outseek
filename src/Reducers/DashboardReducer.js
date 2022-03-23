@@ -1,22 +1,26 @@
 import deepCopy from "deepcopy";
-
+import {
+	ADD_DASHBOARD,
+	DELETE_DASHBOARD,
+	UPDATE_DASHBOARD,
+	LOAD_DASHBOARD_STATE,
+} from "../Utils/Constants";
 export function dashboardReducer(state, action) {
 	let copy = null;
 	switch (action.type) {
 		case "REFRESH_DATA":
-	
 			return {
 				...action.payload[0],
 			};
 		case "TRIGGER_UPDATE":
-			action.payload.triggerFunc(!action.payload.oldValue)
+			action.payload.triggerFunc(!action.payload.oldValue);
 			return {
-				...state
-			}
+				...state,
+			};
 		case "REMOVE_COMPONENT":
 			copy = deepCopy(state);
-			console.log(action.payload)
-			console.log(copy)
+			console.log(action.payload);
+			console.log(copy);
 			var temp = copy.dashboards[action.payload.DashboardID - 1].components.map(
 				(comp, index, arr) => {
 					if (index + 1 !== action.payload.ComponentID) {
@@ -37,11 +41,10 @@ export function dashboardReducer(state, action) {
 		case "ADD_COMPONENT":
 			copy = deepCopy(state);
 
-			copy.dashboards[action.payload.DashboardID-1].components.push(
+			copy.dashboards[action.payload.DashboardID - 1].components.push(
 				action.payload.component
 			);
 
-			
 			return {
 				...copy,
 			};
@@ -123,5 +126,42 @@ export function dashboardReducer(state, action) {
 			};
 		default:
 			return state;
+	}
+}
+
+export function dashboardStateReducer(state, action) {
+	let copy = deepCopy(state);
+	switch (action.type) {
+		case LOAD_DASHBOARD_STATE:
+			return {
+				loading: false,
+				dashboards: [...action.payload],
+			};
+		case DELETE_DASHBOARD:
+			copy = copy.filter((dashboard) => {
+				return dashboard.id !== action.payload;
+			});
+			return {
+				...copy,
+			};
+		case ADD_DASHBOARD:
+			copy = copy.push(action.payload);
+			return { ...copy };
+		case UPDATE_DASHBOARD:
+			copy = copy.map((dashboard) => {
+				if (dashboard.id === action.payload.id) {
+					dashboard.layout = action.payload.layout;
+					return dashboard;
+				}
+				return dashboard;
+			});
+
+			return {
+				...copy,
+			};
+		default:
+			return {
+				...state,
+			};
 	}
 }
