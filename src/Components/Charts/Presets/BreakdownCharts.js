@@ -102,7 +102,6 @@ function reverseData(dataIN) {
 		ret_val.push(dataIN[i]);
 	}
 
-	console.log(ret_val);
 	return ret_val;
 }
 function cleanIncomeData(rawData) {
@@ -208,115 +207,73 @@ export function IncomeBreakdown() {
 	const [height, setHeight] = React.useState(1000);
 
 	return (
-		<div style={{ float: "left" }}>
-			<Resizable
-				style={style}
-				size={{ width, height }}
-				onResizeStop={(e, direction, ref, d) => {
-					setWidth(width + d.width);
-					setHeight(height + d.height);
+		<ResponsiveContainer width={"100%"} height='80%'>
+			<AreaChart
+				data={dataChart}
+				margin={{
+					top: 10,
+					right: 30,
+					left: 0,
+					bottom: 0,
 				}}>
-				{transition((style, item) =>
-					item ? (
-						<animated.div
-							style={{
-								...style,
-								position: "relative",
-								left: "0%",
-								zIndex: 999,
-							}}>
-							<InputGroup style={{ zIndex: 10000 }} size='md' className='mb-3'>
-								<Button>Revenue Breakdown</Button>
-								<FormControl
-									aria-label='Small'
-									aria-describedby='inputGroup-sizing-sm'
-									placeholder='Enter Ticker...'
-									ref={inputTickerRef}
-								/>
+				<CartesianGrid strokeDasharray='3 3' />
+				<XAxis dataKey='Date' />
+				<YAxis width={130} />
+				<Brush dataKey='date' height={30} stroke='#8884d8' />
+				<Legend verticalAlign='top' height={36} />
+				<Tooltip />
+				<Area
+					type='monotone'
+					dataKey='Revenue'
+					stroke='#823c3c'
+					fill='#823c3c'
+					fillOpacity={0.3}
+				/>
+				<Area
+					type={cardinal}
+					dataKey='CostOfRevenue'
+					stroke='#503c82'
+					fill='#503c82'
+					fillOpacity={0.3}
+				/>
+				<Area
+					type='monotone'
+					dataKey='GrossProfit'
+					stroke='#8884d8'
+					fill='#8884d8'
+					fillOpacity={0.3}
+				/>
 
-								<Button
-									onClick={() => {
-										setTickerWrapper();
-									}}
-									style={{ float: "left" }}>
-									{" "}
-									<b> &#8592;</b>{" "}
-								</Button>
-							</InputGroup>{" "}
-						</animated.div>
-					) : (
-						""
-					)
-				)}
-				<ResponsiveContainer width={"100%"} height='80%'>
-					<AreaChart
-						data={dataChart}
-						margin={{
-							top: 10,
-							right: 30,
-							left: 0,
-							bottom: 0,
-						}}>
-						<CartesianGrid strokeDasharray='3 3' />
-						<XAxis dataKey='Date' />
-						<YAxis width={130} />
-						<Brush dataKey='date' height={30} stroke='#8884d8' />
-						<Legend verticalAlign='top' height={36} />
-						<Tooltip />
-						<Area
-							type='monotone'
-							dataKey='Revenue'
-							stroke='#823c3c'
-							fill='#823c3c'
-							fillOpacity={0.3}
-						/>
-						<Area
-							type={cardinal}
-							dataKey='CostOfRevenue'
-							stroke='#503c82'
-							fill='#503c82'
-							fillOpacity={0.3}
-						/>
-						<Area
-							type='monotone'
-							dataKey='GrossProfit'
-							stroke='#8884d8'
-							fill='#8884d8'
-							fillOpacity={0.3}
-						/>
-
-						<Area
-							type={cardinal}
-							dataKey='editda'
-							stroke='#82ca9d'
-							fill='#82ca9d'
-							fillOpacity={0.3}
-						/>
-						<Area
-							type='monotone'
-							dataKey='OperationIncome'
-							stroke='#8884d8'
-							fill='#8884d8'
-							fillOpacity={0.3}
-						/>
-						<Area
-							type={cardinal}
-							dataKey='IncomeBeforeTax'
-							stroke='#3c8274'
-							fill='#3c8274'
-							fillOpacity={0.3}
-						/>
-						<Area
-							type='monotone'
-							dataKey='NetIncome'
-							stroke='#503c82'
-							fill='#503c82'
-							fillOpacity={0.3}
-						/>
-					</AreaChart>
-				</ResponsiveContainer>{" "}
-			</Resizable>{" "}
-		</div>
+				<Area
+					type={cardinal}
+					dataKey='editda'
+					stroke='#82ca9d'
+					fill='#82ca9d'
+					fillOpacity={0.3}
+				/>
+				<Area
+					type='monotone'
+					dataKey='OperationIncome'
+					stroke='#8884d8'
+					fill='#8884d8'
+					fillOpacity={0.3}
+				/>
+				<Area
+					type={cardinal}
+					dataKey='IncomeBeforeTax'
+					stroke='#3c8274'
+					fill='#3c8274'
+					fillOpacity={0.3}
+				/>
+				<Area
+					type='monotone'
+					dataKey='NetIncome'
+					stroke='#503c82'
+					fill='#503c82'
+					fillOpacity={0.3}
+				/>
+			</AreaChart>
+		</ResponsiveContainer>
 	);
 }
 
@@ -350,97 +307,58 @@ export function AssetBreakdown() {
 
 	return (
 		<div style={{ float: "left" }}>
-			<Resizable
-				style={style}
-				size={{ width, height }}
-				onResizeStop={(e, direction, ref, d) => {
-					setWidth(width + d.width);
-					setHeight(height + d.height);
-				}}>
-				{transition((style, item) =>
-					item ? (
-						<animated.div
-							style={{
-								...style,
-								position: "relative",
-								left: "0%",
-								zIndex: 999,
-							}}>
-							<InputGroup style={{ zIndex: 10000 }} size='md' className='mb-3'>
-								<Button>Assets Breakdown</Button>
-								<FormControl
-									aria-label='Small'
-									aria-describedby='inputGroup-sizing-sm'
-									placeholder='Enter Ticker...'
-									ref={inputTickerRef}
-								/>
-								<Button
-									onClick={() => {
-										setTickerWrapper();
-									}}
-									style={{ float: "left" }}>
-									{" "}
-									<b> &#8592;</b>{" "}
-								</Button>
-							</InputGroup>{" "}
-						</animated.div>
-					) : (
-						""
-					)
-				)}
-				<ResponsiveContainer width={"100%"} height='80%'>
-					<AreaChart
-						data={dataChart}
-						margin={{
-							top: 10,
-							right: 30,
-							left: 0,
-							bottom: 0,
-						}}>
-						<CartesianGrid strokeDasharray='3 3' />
-						<XAxis dataKey='Date' />
-						<YAxis width={130} />
-						<Legend verticalAlign='top' height={36} />
-						<Tooltip />
-						<Area
-							type='monotone'
-							dataKey='totalAssets'
-							stroke='#823c3c'
-							fill='#823c3c'
-							fillOpacity={0.3}
-						/>
-						<Area
-							type={cardinal}
-							dataKey='totalCurrentAssets'
-							stroke='#503c82'
-							fill='#503c82'
-							fillOpacity={0.3}
-						/>
-						<Area
-							type='monotone'
-							dataKey='cashAndCashEquivalents'
-							stroke='#8884d8'
-							fill='#8884d8'
-							fillOpacity={0.3}
-						/>
+			<ResponsiveContainer width={"100%"} height={"100%"}>
+				<AreaChart
+					data={dataChart}
+					margin={{
+						top: 10,
+						right: 30,
+						left: 0,
+						bottom: 0,
+					}}>
+					<CartesianGrid strokeDasharray='3 3' />
+					<XAxis dataKey='Date' />
+					<YAxis width={130} />
+					<Legend verticalAlign='top' height={36} />
+					<Tooltip />
+					<Area
+						type='monotone'
+						dataKey='totalAssets'
+						stroke='#823c3c'
+						fill='#823c3c'
+						fillOpacity={0.3}
+					/>
+					<Area
+						type={cardinal}
+						dataKey='totalCurrentAssets'
+						stroke='#503c82'
+						fill='#503c82'
+						fillOpacity={0.3}
+					/>
+					<Area
+						type='monotone'
+						dataKey='cashAndCashEquivalents'
+						stroke='#8884d8'
+						fill='#8884d8'
+						fillOpacity={0.3}
+					/>
 
-						<Area
-							type={cardinal}
-							dataKey='totalNonCurrentAssets'
-							stroke='#82ca9d'
-							fill='#82ca9d'
-							fillOpacity={0.3}
-						/>
-						<Area
-							type='monotone'
-							dataKey='propertyPlantEquipmentNet'
-							stroke='#8884d8'
-							fill='#8884d8'
-							fillOpacity={0.3}
-						/>
-					</AreaChart>
-				</ResponsiveContainer>{" "}
-			</Resizable>{" "}
+					<Area
+						type={cardinal}
+						dataKey='totalNonCurrentAssets'
+						stroke='#82ca9d'
+						fill='#82ca9d'
+						fillOpacity={0.3}
+					/>
+					<Area
+						type='monotone'
+						dataKey='propertyPlantEquipmentNet'
+						stroke='#8884d8'
+						fill='#8884d8'
+						fillOpacity={0.3}
+					/>
+				</AreaChart>
+			</ResponsiveContainer>{" "}
 		</div>
 	);
 }
